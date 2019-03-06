@@ -111,10 +111,10 @@ class Question
 
     public function addAnswer(Answer $answer): self
     {
-        if (!$this->answers->contains($answer)) {
+        // if (!$this->answers->contains($answer)) {
             $this->answers[] = $answer;
             $answer->setQuestion($this);
-        }
+        // }
 
         return $this;
     }
@@ -154,9 +154,9 @@ class Question
 
     public function addTag(Tag $tag): self
     {
-        if (!$this->tags->contains($tag)) {
+        // if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
-        }
+        // }
 
         return $this;
     }
