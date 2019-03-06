@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur o'Faq{% endblock %}
+
+{% block body %}
+<div>
+    {% for question in questions %}
+        <a href="#">{{ question.title }}</a>
+        <div>
+            {% for tag in question.tags %}
+                <a href="#">{{ tag.name }}</a>
+            {% endfor %}
+        </div>
+        {# <p>{{ question.createdAt }}</p> #}
+        <p>Question de {{ question.author.username }}</p>
+        <p>{{ question.content }}</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

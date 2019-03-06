@@ -86,6 +86,7 @@ class AppFixtures extends Fixture
             'content' => function() use ($generator) { return $generator->realText(200, 2); },
             'isActive' => true,
             'author' => $user,
+            'createdAt' => function() use ($generator) { return $generator->dateTimeThisMonth(); },
         ));
 
         $populator->addEntity('App\Entity\Tag', 6, array(
@@ -116,21 +117,13 @@ class AppFixtures extends Fixture
                 $answer->setContent($generator->realText(200, 2))
                     ->setIsActive(true)
                     ->setAuthor($user2)
-                    ->setQuestion($question);
+                    ->setQuestion($question)
+                    ->setCreatedAt($generator->dateTimeThisMonth());
 
                 $manager->persist($answer);
                 $question->addAnswer($answer);
             }
-
-            // $question->addAnswer($populator->addEntity('App\Entity\Answer', 2, array(
-            //     'content' => function() use ($generator) { return $generator->realText(200, 2); },
-            //     'isActive' => true,
-            //     'author' => $user2,
-            //     'question' => $question
-            // )));
-            // $inserted = $populator->execute();
-
-            // $question->setValidateAnswer(null);
+            
             $manager->persist($question);
         }
 
