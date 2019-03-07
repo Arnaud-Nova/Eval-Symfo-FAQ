@@ -6,8 +6,7 @@
 {% block content %}
  <div class="row">
             <div class="col-2"></div>
-            <div class="col-8">
-                <a href="#">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laborum nemo voluptatibus assumenda cumque. Nam neque, quos inventore quisquam odit cumque voluptas sed expedita repudiandae, dolor tenetur obcaecati doloremque aspernatur culpa.</a>
+            <div class="col-8 breadcrumb">
                 {% for question in questions %}
                     <div>
                         {% for tag in question.tags %}
@@ -16,12 +15,8 @@
                     </div>
                 
                     <div>
-                        <a class="d-block" href="#">{{ question.title }}</a>
-                        <div>
-                            {% for tag in question.tags %}
-                                <a href="#">{{ tag.name }}</a>
-                            {% endfor %}
-                        </div>
+                        <a class="d-block" href="{{ path('show_question', {'id': question.id}) }}">{{ question.title }}</a>
+                        
                         {# <p>{{ question.createdAt }}</p> #}
                         <p>Question de {{ question.author.username }}</p>
                         <p>{{ question.content }}</p>
