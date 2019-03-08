@@ -13,16 +13,16 @@
                 <nav class="col-8 d-flex justify-content-end">
                     <ul class="nav nav-pills nav">
                         <li class="nav-item">
-                            <a class="nav-link btn-info m-1" href="#"><i class="fas fa-door-open"></i></i> Connexion</a>
+                            <a class="nav-link btn-info m-1" href="{{ path('app_login') }}"><i class="fas fa-door-open"></i></i> Connexion</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn-primary m-1" href="#"><i class="fas fa-user"></i> Mon compte</a>
+                            <a class="nav-link btn-primary m-1" href="{{ path('home') }}#"><i class="fas fa-user"></i> Mon compte</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn-warning m-1" href="#"><i class="fas fa-rocket"></i> Administration</a>
+                            <a class="nav-link btn-warning m-1" href="{{ path('home') }}#"><i class="fas fa-rocket"></i> Administration</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link btn-dark m-1" href="#"><i class="fas fa-external-link-alt"></i> Déconnexion</a>
+                            <a class="nav-link btn-dark m-1" href="{{ path('app_logout') }}"><i class="fas fa-external-link-alt"></i> Déconnexion</a>
                         </li>
                     </ul>
                 </nav>
