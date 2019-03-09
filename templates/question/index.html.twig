@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur o'Faq{% endblock %}
+
+
+{% block content %}
+    {% for question in questions %}
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8 breadcrumb d-flex flex-column">
+                <div>
+                    {% for tag in question.tags %}
+                        <a href="#">
+                            <span class="badge badge-primary">
+                                {{ tag.name }}
+                            </span>
+                        </a>
+                    {% endfor %}
+                </div>
+            
+                <div>
+                    <h4>
+                        <a class="d-block" href="{{ path('show_question', {'id': question.id}) }}">
+                            {{ question.title }}
+                        </a>
+                    </h4>
+                    <p>Question de {{ question.author.username }} le {{ question.createdAt|date ('d-m-Y H:i') }}</p>
+                </div>
+            </div>
+            <div class="col-2">
+            </div>
+        </div>        
+    {% endfor %}
+{% endblock %}
+

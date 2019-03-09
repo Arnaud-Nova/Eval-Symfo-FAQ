@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface
 {
@@ -218,5 +219,21 @@ class User implements UserInterface
         $this->isActive = $isActive;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist 
+     * @ORM\PreUpdate
+     */
+    public function defaultValues()
+    {
+        if (!$this->roles) {
+             $roles = '{"code": "ROLE_USER", "name": "Membre"}';
+             $this->roles = $roles;
+        }
+
+        if (!$this->isActive) {
+            $this->isActive = true;
+        }
     }
 }

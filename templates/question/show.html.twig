@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur What the FAQ{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-2">
+        </div>
+        <div class="col-8 breadcrumb">
+            <div>
+                {% for tag in question.tags %}
+                    <a href="#"><span class="badge badge-primary">{{ tag.name }}</span></a>
+                {% endfor %}
+            </div>
+        
+            <div>
+                <h4>
+                    <a class="d-block" href="#">
+                        {{ question.title }}
+                    </a>
+                </h4>
+                <p>Question de {{ question.author.username }} le {{ question.createdAt.date|date ('d-m-Y H:i') }}</p>
+                <p>{{ question.content }}</p>
+            </div>
+        </div>
+        <div class="col-2">
+        </div>
+    </div>
+    {% for answer in question.answers %}
+        <div class="row">
+            <div class="col-2">
+            </div>
+            
+            <div class="col-8 breadcrumb">
+
+                <p>Réponse de {{ answer.author.username }} le {{ answer.createdAt.date|date ('d-m-Y H:i') }}</p>
+                <p>{{ answer.content }}</p>
+            </div>
+            
+            <div class="col-2">
+            </div>
+        </div>
+    {% endfor %}
+    
+
+
+{% endblock %}

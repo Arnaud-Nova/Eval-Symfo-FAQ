@@ -25,8 +25,8 @@
                 <td>{{ question.isActive ? 'Yes' : 'No' }}</td>
                 <td>{{ question.createdAt ? question.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('question_show', {'id': question.id}) }}">show</a>
-                    <a href="{{ path('question_edit', {'id': question.id}) }}">edit</a>
+                    <a href="{{ path('back_question_show', {'id': question.id}) }}">show</a>
+                    <a href="{{ path('back_question_edit', {'id': question.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -37,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('question_new') }}">Create new</a>
+    <a href="{{ path('back_question_new') }}">Create new</a>
 {% endblock %}

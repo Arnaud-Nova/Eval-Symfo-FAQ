@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/back/question")
+ * @Route("/back/question", name="back_")
  */
 class QuestionController extends AbstractController
 {
