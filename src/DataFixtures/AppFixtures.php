@@ -24,28 +24,28 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $roleAdmin = new Role();
-        $roleAdmin->setCode('ROLE_ADMIN');
-        $roleAdmin->setName('Administrateur');
+        // $roleAdmin = new Role();
+        // $roleAdmin->setCode('ROLE_ADMIN');
+        // $roleAdmin->setName('Administrateur');
 
-        $roleModo = new Role();
-        $roleModo->setCode('ROLE_MODO');
-        $roleModo->setName('Modérateur');
+        // $roleModo = new Role();
+        // $roleModo->setCode('ROLE_MODO');
+        // $roleModo->setName('Modérateur');
 
-        $roleUser = new Role();
-        $roleUser->setCode('ROLE_USER');
-        $roleUser->setName('Membre');
+        // $roleUser = new Role();
+        // $roleUser->setCode('ROLE_USER');
+        // $roleUser->setName('Membre');
 
-        $manager->persist($roleAdmin);
-        $manager->persist($roleModo);
-        $manager->persist($roleUser);
+        // $manager->persist($roleAdmin);
+        // $manager->persist($roleModo);
+        // $manager->persist($roleUser);
 
         $admin = new User();
         $admin->setEmail('admin@test.fr');
         $admin->setUsername('admin');
         $encodedPassword = $this->passwordEncoder->encodePassword($admin, 'admin');
         $admin->setPassword($encodedPassword);
-        $admin->setRole($roleAdmin);
+        $admin->setRoles('{"code": "ROLE_ADMIN", "name": "Administrateur"}');
         $admin->setIsActive(true);
 
         $modo = new User();
@@ -53,7 +53,7 @@ class AppFixtures extends Fixture
         $modo->setUsername('modo');
         $encodedPassword = $this->passwordEncoder->encodePassword($modo, 'modo');
         $modo->setPassword($encodedPassword);
-        $modo->setRole($roleModo);
+        $modo->setRoles('{"code": "ROLE_MODO", "name": "Modérateur"}');
         $modo->setIsActive(true);
 
         $user = new User();
@@ -61,7 +61,7 @@ class AppFixtures extends Fixture
         $user->setUsername('user');
         $encodedPassword = $this->passwordEncoder->encodePassword($user, 'user');
         $user->setPassword($encodedPassword);
-        $user->setRole($roleUser);
+        $user->setRoles('{"code": "ROLE_USER", "name": "Membre"}');
         $user->setIsActive(true);
 
         $user2 = new User();
@@ -69,7 +69,7 @@ class AppFixtures extends Fixture
         $user2->setUsername('user2');
         $encodedPassword = $this->passwordEncoder->encodePassword($user2, 'user2');
         $user2->setPassword($encodedPassword);
-        $user2->setRole($roleUser);
+        $user2->setRoles('{"code": "ROLE_USER", "name": "Membre"}');
         $user2->setIsActive(true);
 
         $manager->persist($admin);

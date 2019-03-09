@@ -68,7 +68,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Cet utilisateur n\'existe pas');
+            throw new CustomUserMessageAuthenticationException('Cet utilisateur n\'existe pas.');
         }
 
         return $user;

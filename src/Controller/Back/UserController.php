@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use App\Entity\User;
 use App\Form\UserType;
@@ -11,16 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/user")
+ * @Route("/back/user")
  */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/backend", name="user_index", methods={"GET"})
+     * @Route("/", name="user_index", methods={"GET"})
      */
     public function index(UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', [
+        
+        return $this->render('back/user/index.html.twig', [
             'users' => $userRepository->findAll(),
         ]);
     }
@@ -42,7 +43,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index');
         }
 
-        return $this->render('user/new.html.twig', [
+        return $this->render('back/user/new.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
@@ -53,7 +54,7 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        return $this->render('user/show.html.twig', [
+        return $this->render('back/user/show.html.twig', [
             'user' => $user,
         ]);
     }
@@ -69,19 +70,19 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index', [
+            return $this->redirectToRoute('back/user_index', [
                 'id' => $user->getId(),
             ]);
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('back/user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}/backend", name="user_delete", methods={"DELETE"})
+     * @Route("/{id}", name="user_delete", methods={"DELETE"})
      */
     public function delete(Request $request, User $user): Response
     {
@@ -91,6 +92,6 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('back/user_index');
     }
 }

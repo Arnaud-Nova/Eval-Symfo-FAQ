@@ -24,10 +24,10 @@ class User implements UserInterface
      */
     private $username;
 
-    // /**
-    //  * @ORM\Column(type="json")
-    //  */
-    // private $roles = [];
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $roles = [];
 
     /**
      * @var string The hashed password
@@ -36,9 +36,9 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="author")
      */
-    private $email;
+    private $questions;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="author")
@@ -46,15 +46,9 @@ class User implements UserInterface
     private $answers;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Question", mappedBy="author")
+     * @ORM\Column(type="string", length=150)
      */
-    private $questions;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Role", inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $role;
+    private $email;
 
     /**
      * @ORM\Column(type="boolean")
@@ -63,8 +57,8 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->answers = new ArrayCollection();
         $this->questions = new ArrayCollection();
+        $this->answers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,22 +86,21 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles()// : array
+    public function getRoles()
     {
-        // $roles = $this->roles;
-        // // guarantee every user at least has ROLE_USER
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
         // $roles[] = 'ROLE_USER';
 
-        // return array_unique($roles);
-        return [$this->role->getCode()];
+        return $roles;
     }
 
-    // public function setRoles(array $roles): self
-    // {
-    //     $this->roles = $roles;
+    public function setRoles($roles): self
+    {
+        $this->roles = $roles;
 
-    //     return $this;
-    // }
+        return $this;
+    }
 
     /**
      * @see UserInterface
@@ -141,14 +134,33 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getEmail(): ?string
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
     {
-        return $this->email;
+        return $this->questions;
     }
 
-    public function setEmail(string $email): self
+    public function addQuestion(Question $question): self
     {
-        $this->email = $email;
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+            // set the owning side to null (unless already changed)
+            if ($question->getAuthor() === $this) {
+                $question->setAuthor(null);
+            }
+        }
 
         return $this;
     }
@@ -184,45 +196,14 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Question[]
-     */
-    public function getQuestions(): Collection
+    public function getEmail(): ?string
     {
-        return $this->questions;
+        return $this->email;
     }
 
-    public function addQuestion(Question $question): self
+    public function setEmail(string $email): self
     {
-        if (!$this->questions->contains($question)) {
-            $this->questions[] = $question;
-            $question->setAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeQuestion(Question $question): self
-    {
-        if ($this->questions->contains($question)) {
-            $this->questions->removeElement($question);
-            // set the owning side to null (unless already changed)
-            if ($question->getAuthor() === $this) {
-                $question->setAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getRole(): ?Role
-    {
-        return $this->role;
-    }
-
-    public function setRole(?Role $role): self
-    {
-        $this->role = $role;
+        $this->email = $email;
 
         return $this;
     }

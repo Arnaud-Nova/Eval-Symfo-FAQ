@@ -27,26 +27,21 @@ class Answer
     private $isActive;
 
     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="answers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $question;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Question", mappedBy="validateAnswer", cascade={"persist", "remove"})
-     */
-    private $valideForQuestion;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="answers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
 
     public function getId(): ?int
     {
@@ -77,6 +72,18 @@ class Answer
         return $this;
     }
 
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     public function getQuestion(): ?Question
     {
         return $this->question;
@@ -89,24 +96,6 @@ class Answer
         return $this;
     }
 
-    public function getValideForQuestion(): ?Question
-    {
-        return $this->valideForQuestion;
-    }
-
-    public function setValideForQuestion(?Question $valideForQuestion): self
-    {
-        $this->valideForQuestion = $valideForQuestion;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newValidateAnswer = $valideForQuestion === null ? null : $this;
-        if ($newValidateAnswer !== $valideForQuestion->getValidateAnswer()) {
-            $valideForQuestion->setValidateAnswer($newValidateAnswer);
-        }
-
-        return $this;
-    }
-
     public function getAuthor(): ?User
     {
         return $this->author;
@@ -115,18 +104,6 @@ class Answer
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

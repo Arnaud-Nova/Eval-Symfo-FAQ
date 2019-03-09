@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use App\Entity\Answer;
 use App\Form\AnswerType;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/answer")
+ * @Route("/back/answer")
  */
 class AnswerController extends AbstractController
 {
@@ -20,7 +20,7 @@ class AnswerController extends AbstractController
      */
     public function index(AnswerRepository $answerRepository): Response
     {
-        return $this->render('answer/index.html.twig', [
+        return $this->render('back/answer/index.html.twig', [
             'answers' => $answerRepository->findAll(),
         ]);
     }
@@ -39,10 +39,10 @@ class AnswerController extends AbstractController
             $entityManager->persist($answer);
             $entityManager->flush();
 
-            return $this->redirectToRoute('answer_index');
+            return $this->redirectToRoute('back/answer_index');
         }
 
-        return $this->render('answer/new.html.twig', [
+        return $this->render('back/answer/new.html.twig', [
             'answer' => $answer,
             'form' => $form->createView(),
         ]);
@@ -53,7 +53,7 @@ class AnswerController extends AbstractController
      */
     public function show(Answer $answer): Response
     {
-        return $this->render('answer/show.html.twig', [
+        return $this->render('back/answer/show.html.twig', [
             'answer' => $answer,
         ]);
     }
@@ -69,12 +69,12 @@ class AnswerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('answer_index', [
+            return $this->redirectToRoute('back/answer_index', [
                 'id' => $answer->getId(),
             ]);
         }
 
-        return $this->render('answer/edit.html.twig', [
+        return $this->render('back/answer/edit.html.twig', [
             'answer' => $answer,
             'form' => $form->createView(),
         ]);
@@ -91,6 +91,6 @@ class AnswerController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('answer_index');
+        return $this->redirectToRoute('back/answer_index');
     }
 }
