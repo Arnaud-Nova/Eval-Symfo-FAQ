@@ -5,9 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\DateTime;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuestionRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Question
 {
@@ -43,11 +46,7 @@ class Question
      */
     private $answers;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Answer", inversedBy="question", cascade={"persist", "remove"})
-     */
-    private $validatedAnswer;
-
+    
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag", inversedBy="questions")
      */
@@ -58,6 +57,11 @@ class Question
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Answer", inversedBy="validatedForQuestion", cascade={"persist", "remove"})
+     */
+    private $validatedAnswer;
 
     public function __construct()
     {
@@ -149,17 +153,6 @@ class Question
         return $this;
     }
 
-    public function getValidatedAnswer(): ?Answer
-    {
-        return $this->validatedAnswer;
-    }
-
-    public function setValidatedAnswer(?Answer $validatedAnswer): self
-    {
-        $this->validatedAnswer = $validatedAnswer;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Tag[]
@@ -198,4 +191,38 @@ class Question
 
         return $this;
     }
+
+    public function getValidatedAnswer(): ?Answer
+    {
+        return $this->validatedAnswer;
+    }
+
+    public function setValidatedAnswer(?Answer $validatedAnswer): self
+    {
+        $this->validatedAnswer = $validatedAnswer;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist 
+     * @ORM\PreUpdate
+     */
+    public function defaultValues()
+    {
+        if (!$this->createdAt) {
+            $date = new \DateTime();
+            $this->createdAt = $date;
+        }
+
+        if (!$this->isActive) {
+            $this->isActive = true;
+        }
+    }
+
+    public function __toString()
+    {
+        return $this->title;
+    }
+
 }

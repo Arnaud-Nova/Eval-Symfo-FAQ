@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AnswerRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Answer
 {
@@ -42,6 +43,11 @@ class Answer
      * @ORM\JoinColumn(nullable=false)
      */
     private $author;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Question", mappedBy="validatedAnswer", cascade={"persist", "remove"})
+     */
+    private $validatedForQuestion;
 
     public function getId(): ?int
     {
@@ -106,5 +112,39 @@ class Answer
         $this->author = $author;
 
         return $this;
+    }
+
+    public function getValidatedForQuestion(): ?Question
+    {
+        return $this->validatedForQuestion;
+    }
+
+    public function setValidatedForQuestion(?Question $validatedForQuestion): self
+    {
+        $this->validatedForQuestion = $validatedForQuestion;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newValidatedAnswer = $validatedForQuestion === null ? null : $this;
+        if ($newValidatedAnswer !== $validatedForQuestion->getValidatedAnswer()) {
+            $validatedForQuestion->setValidatedAnswer($newValidatedAnswer);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist 
+     * @ORM\PreUpdate
+     */
+    public function defaultValues()
+    {
+        if (!$this->createdAt) {
+            $date = new \DateTime();
+            $this->createdAt = $date;
+        }
+
+        if (!$this->isActive) {
+            $this->isActive = true;
+        }
     }
 }

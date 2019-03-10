@@ -50,7 +50,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="user_show", methods={"GET"})
+     * @Route("/{id}", name="user_show", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function show(User $user): Response
     {
@@ -93,5 +93,18 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('back/user_index');
+    }
+
+    /**
+     * @Route("/current", name="user_current", methods={"GET"})
+     */
+    public function currentUser(UserRepository $userRepository): Response
+    {
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
+        $user = $this->getUser();
+
+        dd($user);
     }
 }

@@ -14,11 +14,11 @@ class QuestionType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('isActive')
-            ->add('createdAt')
-            ->add('validatedAnswer')
+            // ->add('isActive')
+            // ->add('createdAt')
+            // ->add('validatedAnswer')
             ->add('tags')
-            ->add('author')
+            // ->add('author')
         ;
     }
 

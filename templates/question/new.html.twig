@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Vous avez une question ?{% endblock %}
+
+{% block content %}
+    <h1>Posez votre question</h1>
+
+    {{ include('back/question/_form.html.twig') }}
+
+    <a href="{{ path('home') }}">Retour acceuil</a>
+{% endblock %}

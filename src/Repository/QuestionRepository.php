@@ -26,6 +26,7 @@ class QuestionRepository extends ServiceEntityRepository
         $query = $em->createQuery(
             'SELECT q
             FROM App\Entity\Question q
+            WHERE q.isActive = true
             ORDER BY q.createdAt DESC'
         );
 

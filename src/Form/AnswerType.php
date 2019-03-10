@@ -13,10 +13,10 @@ class AnswerType extends AbstractType
     {
         $builder
             ->add('content')
-            ->add('isActive')
-            ->add('createdAt')
-            ->add('question')
-            ->add('author')
+            // ->add('isActive')
+            // ->add('createdAt')
+            // ->add('question')
+            // ->add('author')
         ;
     }
 

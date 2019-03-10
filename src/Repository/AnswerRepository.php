@@ -32,6 +32,7 @@ class AnswerRepository extends ServiceEntityRepository
             FROM App\Entity\Answer a
             JOIN a.question question
             WHERE a.question = :question
+            AND a.isActive = true
         ')
         ->setParameter('question', $question);
 
