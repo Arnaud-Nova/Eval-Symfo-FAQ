@@ -5,7 +5,25 @@
 {% block content %}
     <h1>Posez votre question</h1>
 
-    {{ include('back/question/_form.html.twig') }}
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div class="row">
+            <div class="col-2">
+            </div>
+            
+            <div class="col-8 alert alert-primary">
+                {{ include('back/question/_form.html.twig') }}
+            </div>
+            
+            <div class="col-2">
+            </div>
+        </div>
+    {% else %}
+        <p>
+            Pour répondre à cette question veuillez d'abord vous <a href="{{ path('app_login') }}">connecter</a>
+        </p>
+    {% endif %}
+
+    
 
     <a href="{{ path('home') }}">Retour acceuil</a>
 {% endblock %}

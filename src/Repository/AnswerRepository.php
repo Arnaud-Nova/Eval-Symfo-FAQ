@@ -21,7 +21,6 @@ class AnswerRepository extends ServiceEntityRepository
     }
 
     /**
-     * 
      * @param Question $question
      * @return Answer[]
      */
@@ -34,10 +33,11 @@ class AnswerRepository extends ServiceEntityRepository
             WHERE a.question = :question
             AND a.isActive = true
         ')
-        ->setParameter('question', $question);
+        ->setParameter('question',$question);
 
         return $query->getResult(); 
     }
+
 
     // /**
     //  * @return Answer[] Returns an array of Answer objects

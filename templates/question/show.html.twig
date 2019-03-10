@@ -27,23 +27,47 @@
         <div class="col-2">
         </div>
     </div>
-    {% for answer in answers %}
+    {% if validatedAnswer != null %}
         <div class="row">
             <div class="col-2">
             </div>
             
-            <div class="col-8 breadcrumb">
+            <div class="col-8 alert alert-success">
 
-                <p>Réponse de {{ answer.author.username }} le {{ answer.createdAt.date|date ('d-m-Y H:i') }}</p>
-                <p>{{ answer.content }}</p>
-            </div>
-            
+                <p>Réponse de {{ validatedAnswer.author.username }} le {{ validatedAnswer.createdAt.date|date ('d-m-Y H:i') }}</p>
+                <p>{{ validatedAnswer.content }}</p>
+            </div>  
             <div class="col-2">
+                <a class="btn btn-danger" href="{{ path('unValidate_answer_for_question', {'id': question.id}) }}">Cette solution ne m'a pas aidé</a>
             </div>
         </div>
+    {% endif %}
+    
+    
+    {% for answer in answers %}
+        {% if validatedAnswer == null or validatedAnswer.id != answer.id %}
+        
+            <div class="row">
+                <div class="col-2">
+                </div>
+                
+                <div class="col-8 breadcrumb">
 
-        
-        
+                    <p>Réponse de {{ answer.author.username }} le {{ answer.createdAt.date|date ('d-m-Y H:i') }}</p>
+                    <p>{{ answer.content }}</p>
+                </div>  
+                
+                
+                
+                <div class="col-2">
+                    {% if isQuestionAuthor == true and validatedAnswer == null %}
+                        <a class="btn btn-success" href="{{ path('validate_answer_for_question', {'answerId': answer.id, 'id': question.id}) }}">Cette réponse a résolu mon problème</a>
+                    {% endif %}
+                    
+                </div>
+            </div>
+
+        {% endif %}    
     {% endfor %}
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
