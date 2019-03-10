@@ -210,12 +210,12 @@ class Question
      */
     public function defaultValues()
     {
-        if (!$this->createdAt) {
+        if (!isset($this->createdAt)) {
             $date = new \DateTime();
             $this->createdAt = $date;
         }
 
-        if (!$this->isActive) {
+        if (!isset($this->isActive)) {
             $this->isActive = true;
         }
     }

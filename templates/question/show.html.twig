@@ -6,6 +6,11 @@
 {% block content %}
     <div class="row">
         <div class="col-2">
+            {% if is_granted('ROLE_MODO') %}
+                    <a class="btn btn-danger" href="{{ path('back_activation_question', {'id': question.id}) }}">
+                    Hors charte
+                </a>
+            {% endif %}
         </div>
         <div class="col-8 breadcrumb d-flex flex-column">
             <div>
@@ -14,7 +19,7 @@
                 {% endfor %}
             </div>
         
-            <div>
+            <div class="d-flex flex-column">
                 <h4>
                     <a class="d-block" href="#">
                         {{ question.title }}
@@ -27,12 +32,17 @@
         <div class="col-2">
         </div>
     </div>
-    {% if validatedAnswer != null %}
+    {% if validatedAnswer != null and validatedAnswer.isActive == true %}
         <div class="row">
             <div class="col-2">
+                {% if is_granted('ROLE_MODO') %}
+                     <a class="btn btn-danger" href="{{ path('back_activation_answer', {'id': validatedAnswer.id}) }}">
+                        Hors charte
+                    </a>
+                {% endif %}
             </div>
             
-            <div class="col-8 alert alert-success">
+            <div class="col-8 alert alert-success d-flex flex-column">
 
                 <p>Réponse de {{ validatedAnswer.author.username }} le {{ validatedAnswer.createdAt.date|date ('d-m-Y H:i') }}</p>
                 <p>{{ validatedAnswer.content }}</p>
@@ -48,10 +58,17 @@
         {% if validatedAnswer == null or validatedAnswer.id != answer.id %}
         
             <div class="row">
+            
                 <div class="col-2">
+                    {% if is_granted('ROLE_MODO') %}
+                    <a class="btn btn-danger" href="{{ path('back_activation_answer', {'id': answer.id}) }}">
+                    Hors charte
+                    
+                </a>
+            {% endif %}
                 </div>
                 
-                <div class="col-8 breadcrumb">
+                <div class="col-8 breadcrumb d-flex flex-column">
 
                     <p>Réponse de {{ answer.author.username }} le {{ answer.createdAt.date|date ('d-m-Y H:i') }}</p>
                     <p>{{ answer.content }}</p>
@@ -73,6 +90,7 @@
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
         <div class="row">
             <div class="col-2">
+                
             </div>
             
             <div class="col-8 alert alert-primary">

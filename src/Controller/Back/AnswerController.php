@@ -3,12 +3,13 @@
 namespace App\Controller\Back;
 
 use App\Entity\Answer;
+use App\Entity\Question;
 use App\Form\AnswerType;
 use App\Repository\AnswerRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/back/answer", name="back_")
@@ -92,5 +93,17 @@ class AnswerController extends AbstractController
         }
 
         return $this->redirectToRoute('back/answer_index');
+    }
+
+    /**
+     * @Route("/answer/{id}/activation", name="activation_answer", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function activationAnswer(Answer $answer): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $answer->setIsActive(false);
+        $entityManager->flush();
+
+        return $this->redirect('/answer/question/' . $answer->getQuestion()->getId());
     }
 }

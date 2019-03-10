@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <td>Mon username</td>
+            <td>Mon email</td>
+        </thead>
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+        </tr>
+    </table>
+
+    <h3>
+        Les questions que j'ai posées
+    </h3>
+    <div class="container">
+        {% for question in user.questions %}
+            <div class="row">
+                <div class="col-2">
+                </div>
+                <div class="col-8 breadcrumb">
+                    Le {{ question.createdAt.date|date ('d-m-Y H:i') }}, <a href="{{ path('answers_by_question', {'id': question.id}) }}">{{ question.title }}</a>
+                </div>
+                <div class="col-2">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <h3>
+        Les réponses que j'ai données
+    </h3>
+    <div class="container">
+        {% for answer in user.answers %}
+            <div class="row">
+                <div class="col-2">
+                </div>
+                <div class="col-8 breadcrumb">
+                    Le {{ answer.createdAt|date ('d-m-Y H:i') }}, réponse faite à la question : <a href="{{ path('answers_by_question', {'id': answer.question.id}) }}"> {{ answer.question.title }}</a>
+                </div>
+                <div class="col-2">
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

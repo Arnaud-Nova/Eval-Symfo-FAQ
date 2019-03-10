@@ -93,4 +93,16 @@ class QuestionController extends AbstractController
 
         return $this->redirectToRoute('back/question_index');
     }
+
+    /**
+     * @Route("/{id}/activation", name="activation_question", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function activationAnswer(Question $question): Response
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $question->setIsActive(false);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('home');
+    }
 }
