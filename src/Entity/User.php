@@ -134,6 +134,31 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt,
+        ]);
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->username,
+            $this->password,
+            // see section on salt below
+            // $this->salt
+        ) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+
     /**
      * @return Collection|Question[]
      */
@@ -226,12 +251,12 @@ class User implements UserInterface
      */
     public function defaultValues()
     {
-        if (!$this->roles) {
+        if (empty($this->roles)) {
              $roles = '{"code": "ROLE_USER", "name": "Membre"}';
              $this->roles = $roles;
         }
 
-        if (!$this->isActive) {
+        if (!isset($this->isActive)) {
             $this->isActive = true;
         }
     }

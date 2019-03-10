@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
+use App\Form\UserType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 /**
@@ -25,12 +29,60 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="account_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
+     * @Route("/new", name="account_new", methods={"GET","POST"})
      */
-    public function edit()
+    public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
-        return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $encodedPassword = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encodedPassword);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            // dd($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('user/new.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/edit", name="account_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $user = $this->getUser();
+        $oldPassword = $user->getPassword();
+        
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            if(is_null($user->getPassword())){
+                $encodedPassword = $oldPassword;
+            } else {
+                $encodedPassword = $passwordEncoder->encodePassword($user, $user->getPassword());
+            }
+
+            $user->setPassword($encodedPassword);
+dd($user);
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('user_account');
+        }
+
+        return $this->render('user/edit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 }

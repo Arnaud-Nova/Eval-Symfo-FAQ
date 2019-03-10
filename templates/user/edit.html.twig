@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edition du profil{% endblock %}
+
+{% block content %}
+    <h1>Modifier mon profil</h1>
+
+    {{ include('back/user/_form.html.twig', {'button_label': 'Enregistrer les modifications'}) }}
+
+    <a href="{{ path('user_account') }}">Retour à mon compte</a>
+
+{% endblock %}
