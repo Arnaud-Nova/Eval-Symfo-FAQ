@@ -101,7 +101,12 @@ class AnswerController extends AbstractController
     public function activationAnswer(Answer $answer): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $answer->setIsActive(false);
+        if ($answer->getIsActive() == true) {
+            $answer->setIsActive(false);
+        } else {
+            $answer->setIsActive(true);
+        }
+        
         $entityManager->flush();
 
         return $this->redirect('/answer/question/' . $answer->getQuestion()->getId());

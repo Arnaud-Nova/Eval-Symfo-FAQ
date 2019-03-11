@@ -38,6 +38,23 @@ class AnswerRepository extends ServiceEntityRepository
         return $query->getResult(); 
     }
 
+    /**
+     * @param Question $question
+     * @return Answer[]
+     */
+    public function findByQuestionModo($question)
+    {
+        $query = $this->getEntityManager()->createQuery('
+            SELECT question, a 
+            FROM App\Entity\Answer a
+            JOIN a.question question
+            WHERE a.question = :question
+        ')
+        ->setParameter('question',$question);
+
+        return $query->getResult(); 
+    }
+
 
     // /**
     //  * @return Answer[] Returns an array of Answer objects

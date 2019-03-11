@@ -97,10 +97,14 @@ class QuestionController extends AbstractController
     /**
      * @Route("/{id}/activation", name="activation_question", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function activationAnswer(Question $question): Response
+    public function activationQuestion(Question $question): Response
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $question->setIsActive(false);
+        if ($question->getIsActive() == true) {
+            $question->setIsActive(false);
+        } else {
+            $question->setIsActive(true);
+        }
         $entityManager->flush();
 
         return $this->redirectToRoute('home');

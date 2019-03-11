@@ -5,11 +5,17 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-2">
+        <div class="col-2 d-flex flex-column justify-content-center">
             {% if is_granted('ROLE_MODO') %}
+                {% if question.isActive == true %}
                     <a class="btn btn-danger" href="{{ path('back_activation_question', {'id': question.id}) }}">
-                    Hors charte
-                </a>
+                        Refuser la question
+                    </a>
+                {% else %}
+                    <a class="btn btn-success" href="{{ path('back_activation_question', {'id': question.id}) }}">
+                        Accepter la question
+                    </a>
+                {% endif %}
             {% endif %}
         </div>
         <div class="col-8 breadcrumb d-flex flex-column">
@@ -34,11 +40,17 @@
     </div>
     {% if validatedAnswer != null and validatedAnswer.isActive == true %}
         <div class="row">
-            <div class="col-2">
+            <div class="col-2 d-flex flex-column justify-content-center">
                 {% if is_granted('ROLE_MODO') %}
-                     <a class="btn btn-danger" href="{{ path('back_activation_answer', {'id': validatedAnswer.id}) }}">
-                        Hors charte
-                    </a>
+                    {% if validatedAnswer.isActive == true %}
+                        <a class="btn btn-danger" href="{{ path('back_activation_answer', {'id': validatedAnswer.id}) }}">
+                            Refuser la réponse
+                        </a>
+                    {% else %}
+                        <a class="btn btn-success" href="{{ path('back_activation_answer', {'id': validatedAnswer.id}) }}">
+                            Accepter la réponse
+                        </a>
+                    {% endif %}
                 {% endif %}
             </div>
             
@@ -47,8 +59,8 @@
                 <p>Réponse de {{ validatedAnswer.author.username }} le {{ validatedAnswer.createdAt.date|date ('d-m-Y H:i') }}</p>
                 <p>{{ validatedAnswer.content }}</p>
             </div>  
-            <div class="col-2">
-                <a class="btn btn-danger" href="{{ path('unValidate_answer_for_question', {'id': question.id}) }}">Cette solution ne m'a pas aidé</a>
+            <div class="col-2 d-flex flex-column justify-content-center">
+                <a class="btn btn-danger" href="{{ path('unValidate_answer_for_question', {'id': question.id}) }}">Ne m'a pas aidé</a>
             </div>
         </div>
     {% endif %}
@@ -59,16 +71,21 @@
         
             <div class="row">
             
-                <div class="col-2">
+                <div class="col-2 d-flex flex-column justify-content-center">
                     {% if is_granted('ROLE_MODO') %}
-                    <a class="btn btn-danger" href="{{ path('back_activation_answer', {'id': answer.id}) }}">
-                    Hors charte
-                    
-                </a>
-            {% endif %}
+                        {% if answer.isActive == true %}
+                            <a class="btn btn-danger" href="{{ path('back_activation_answer', {'id': answer.id}) }}">
+                                Refuser la réponse
+                            </a>
+                        {% else %}
+                            <a class="btn btn-success" href="{{ path('back_activation_answer', {'id': answer.id}) }}">
+                                Accepter la réponse
+                            </a>
+                        {% endif %}
+                    {% endif %}
                 </div>
                 
-                <div class="col-8 breadcrumb d-flex flex-column">
+                <div class="col-8{% if answer.isActive == true %} breadcrumb {% else %} alert alert-danger {% endif %}d-flex flex-column">
 
                     <p>Réponse de {{ answer.author.username }} le {{ answer.createdAt.date|date ('d-m-Y H:i') }}</p>
                     <p>{{ answer.content }}</p>
@@ -76,9 +93,9 @@
                 
                 
                 
-                <div class="col-2">
+                <div class="col-2 d-flex flex-column justify-content-center">
                     {% if isQuestionAuthor == true and validatedAnswer == null %}
-                        <a class="btn btn-success" href="{{ path('validate_answer_for_question', {'answerId': answer.id, 'id': question.id}) }}">Cette réponse a résolu mon problème</a>
+                        <a class="btn btn-success" href="{{ path('validate_answer_for_question', {'answerId': answer.id, 'id': question.id}) }}">A résolu mon problème</a>
                     {% endif %}
                     
                 </div>

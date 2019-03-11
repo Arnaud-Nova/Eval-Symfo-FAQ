@@ -95,6 +95,13 @@ class User implements UserInterface
         return $roles;
     }
 
+    public function getRolesName()
+    {
+        $roleName = json_decode($this->roles)->name;
+
+        return $roleName;
+    }
+
     public function setRoles($roles): self
     {
         $this->roles = $roles;
@@ -141,6 +148,7 @@ class User implements UserInterface
             $this->id,
             $this->username,
             $this->password,
+            $this->roles,
             // see section on salt below
             // $this->salt,
         ]);
@@ -153,6 +161,7 @@ class User implements UserInterface
             $this->id,
             $this->username,
             $this->password,
+            $this->roles,
             // see section on salt below
             // $this->salt
         ) = unserialize($serialized, ['allowed_classes' => false]);
@@ -252,7 +261,7 @@ class User implements UserInterface
     public function defaultValues()
     {
         if (empty($this->roles)) {
-             $roles = '{"code": "ROLE_USER", "name": "Membre"}';
+             $roles = '{"name": "Membre", "code": "ROLE_USER"}';
              $this->roles = $roles;
         }
 

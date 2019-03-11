@@ -45,7 +45,7 @@ class AppFixtures extends Fixture
         $admin->setUsername('admin');
         $encodedPassword = $this->passwordEncoder->encodePassword($admin, 'admin');
         $admin->setPassword($encodedPassword);
-        $admin->setRoles('{"code": "ROLE_ADMIN", "name": "Administrateur"}');
+        $admin->setRoles('{"name": "Administrateur", "code": "ROLE_ADMIN"}');
         $admin->setIsActive(true);
 
         $modo = new User();
@@ -53,7 +53,7 @@ class AppFixtures extends Fixture
         $modo->setUsername('modo');
         $encodedPassword = $this->passwordEncoder->encodePassword($modo, 'modo');
         $modo->setPassword($encodedPassword);
-        $modo->setRoles('{"code": "ROLE_MODO", "name": "Modérateur"}');
+        $modo->setRoles('{"name": "Modérateur", "code": "ROLE_MODO"}');
         $modo->setIsActive(true);
 
         $user = new User();
@@ -61,7 +61,7 @@ class AppFixtures extends Fixture
         $user->setUsername('user');
         $encodedPassword = $this->passwordEncoder->encodePassword($user, 'user');
         $user->setPassword($encodedPassword);
-        $user->setRoles('{"code": "ROLE_USER", "name": "Membre"}');
+        $user->setRoles('{"name": "Membre","code": "ROLE_USER"}');
         $user->setIsActive(true);
 
         $user2 = new User();
@@ -69,7 +69,7 @@ class AppFixtures extends Fixture
         $user2->setUsername('user2');
         $encodedPassword = $this->passwordEncoder->encodePassword($user2, 'user2');
         $user2->setPassword($encodedPassword);
-        $user2->setRoles('{"code": "ROLE_USER", "name": "Membre"}');
+        $user2->setRoles('{"name": "Membre","code": "ROLE_USER"}');
         $user2->setIsActive(true);
 
         $manager->persist($admin);

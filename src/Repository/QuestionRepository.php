@@ -33,6 +33,19 @@ class QuestionRepository extends ServiceEntityRepository
         return $query->execute();
     }
 
+    public function questionsByCreatedAtDescModo()
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em->createQuery(
+            'SELECT q
+            FROM App\Entity\Question q
+            ORDER BY q.createdAt DESC'
+        );
+
+        return $query->execute();
+    }
+
     // /**
     //  * @return Question[] Returns an array of Question objects
     //  */

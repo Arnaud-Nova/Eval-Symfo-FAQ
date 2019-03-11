@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @Route("/answer")
@@ -20,7 +21,7 @@ class AnswerController extends AbstractController
     /**
      * @Route("/question/{id}", name="answers_by_question", methods={"GET", "POST"}, requirements={"id"="\d+"})
      */
-    public function AnswersByQuestion(Question $question, AnswerRepository $answerRepository, Request $request): Response
+    public function AnswersByQuestion(Question $question, AnswerRepository $answerRepository, Request $request, AuthorizationCheckerInterface $authChecker): Response
     {   
         $user = $this->getUser();
         $isQuestionAuthor = "";
@@ -29,7 +30,14 @@ class AnswerController extends AbstractController
         } else {
             $isQuestionAuthor = false;
         }
-        $answers = $answerRepository->findByQuestion($question);
+
+        if (true === $authChecker->isGranted('ROLE_MODO')) {
+            $answers = $answerRepository->findByQuestionModo($question);
+        } else {
+            $answers = $answerRepository->findByQuestion($question);
+        }
+
+        
         $validatedAnswer = $question->getValidatedAnswer();
         // dd($validatedAnswer);
         $answer = new Answer();

@@ -20,9 +20,17 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        
+        $users = $userRepository->findAll();
+        $roles = [];
+        foreach ($users as $user) {
+            
+            $roles[] = $user->getRolesName();
+        }
+
+        // dd($roles);
         return $this->render('back/user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $users,
+            'roles' => $roles,
         ]);
     }
 
@@ -95,19 +103,30 @@ class UserController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('back/user_index');
+        return $this->redirectToRoute('back_user_index');
     }
 
     /**
-     * @Route("/current", name="user_current", methods={"GET"})
+     * @Route("/to-modo/{id}", name="user_to_modo", methods={"GET"}, requirements={"id"="\d+"})
      */
-    public function currentUser(UserRepository $userRepository): Response
+    public function changeRoleToModo(User $user): Response
     {
+        $user->setRoles('{"name": "Modérateur", "code": "ROLE_MODO"}');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
 
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        return $this->redirectToRoute('back_user_index');
+    }
 
-        $user = $this->getUser();
+    /**
+     * @Route("/to-user/{id}", name="user_to_user", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function changeRoleToUser(User $user): Response
+    {
+        $user->setRoles('{"name": "Membre", "code": "ROLE_USER"}');
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
 
-        dd($user);
+        return $this->redirectToRoute('back_user_index');
     }
 }

@@ -9,15 +9,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class QuestionController extends AbstractController
 {
     /**
      * @Route("/", name="home")
      */
-    public function index(QuestionRepository $QuestionRepo)
+    public function index(QuestionRepository $QuestionRepo, AuthorizationCheckerInterface $authChecker)
     {
-        $questions = $QuestionRepo->questionsByCreatedAtDesc();
+        if (true === $authChecker->isGranted('ROLE_MODO')) {
+            $questions = $QuestionRepo->questionsByCreatedAtDescModo();
+        } else {
+            $questions = $QuestionRepo->questionsByCreatedAtDesc();
+        }
 
         return $this->render('question/index.html.twig', [
             'questions' => $questions,
