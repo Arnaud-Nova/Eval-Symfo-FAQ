@@ -19,6 +19,33 @@ class TagRepository extends ServiceEntityRepository
         parent::__construct($registry, Tag::class);
     }
 
+    public function findQuestionsByTagModo(Tag $tag)
+    {
+        $query = $this->getEntityManager()->createQuery('
+        SELECT question
+        FROM App\Entity\Question question
+        JOIN question.tags t
+        WHERE t = :tag
+        ')
+        ->setParameter('tag',$tag);
+
+        return $query->getResult(); 
+    }
+
+    public function findQuestionsByTag(Tag $tag)
+    {
+        $query = $this->getEntityManager()->createQuery('
+        SELECT question
+        FROM App\Entity\Question question
+        JOIN question.tags t
+        WHERE t = :tag
+        AND question.isActive = true
+        ')
+        ->setParameter('tag',$tag);
+
+        return $query->getResult(); 
+    }
+    
     // /**
     //  * @return Tag[] Returns an array of Tag objects
     //  */

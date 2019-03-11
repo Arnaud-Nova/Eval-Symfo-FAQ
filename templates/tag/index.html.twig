@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tag index{% endblock %}
+
+{% block content %}
+    <h1>Liste des tags</h1>
+    <h3>Choisissez la catégorie de votre choix pour consulter les questions correspondantes</h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tag</th>
+                <th>Les questions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tag in tags %}
+            <tr>
+                
+                <td>{{ tag.name }}</td>
+                <td>
+                    <a class="btn btn-info" href="{{ path('tag_questions', {'id': tag.id}) }}">Voir</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Pas de données disponibles</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_MODO') %}
+        <h3>Créer un nouveau tag</h3>
+       {{ include('back/tag/_form.html.twig', {'button_label': 'Nouveau tag'}) }}
+    {% endif %}
+    
+{% endblock %}

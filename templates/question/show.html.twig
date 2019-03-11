@@ -21,7 +21,7 @@
         <div class="col-8 breadcrumb d-flex flex-column">
             <div>
                 {% for tag in question.tags %}
-                    <a href="#"><span class="badge badge-primary">{{ tag.name }}</span></a>
+                    <a href="{{ path('tag_questions', {'id': tag.id}) }}"><span class="badge badge-primary">{{ tag.name }}</span></a>
                 {% endfor %}
             </div>
         
