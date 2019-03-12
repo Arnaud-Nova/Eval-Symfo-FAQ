@@ -45,7 +45,7 @@ class UserType extends AbstractType
             } else {
                 $form->add('password', RepeatedType::class, [
                     'type' => PasswordType::class,
-                    'empty_data' => '',
+                    // 'empty_data' => '',
                     'invalid_message' => 'Les mots de passe doivent être identiques',
                     'options' => ['attr' => [
                         'class' => 'password-field'
@@ -53,14 +53,14 @@ class UserType extends AbstractType
                     'required' => true,
                     'first_options'  => [
                         'label' => 'Mot de passe',
-                        'empty_data' => '',
+                        // 'empty_data' => '',
                         'attr' => [
                             'placeholder' => 'Laisser vide si inchangé'
                         ]
                     ],
                     'second_options' => [
                         'label' => 'Confirmer le mot de passe',
-                        'empty_data' => '',
+                        // 'empty_data' => '',
                         'attr' => [
                             'placeholder' => 'Laisser vide si inchangé'
                         ]

@@ -68,7 +68,6 @@ class UserController extends AbstractController
         $oldPassword = $user->getPassword();
         
         $form = $this->createForm(UserType::class, $user);
-        // dd($form);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
