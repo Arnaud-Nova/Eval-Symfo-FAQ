@@ -34,8 +34,13 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/back, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/back/user, roles: ROLE_ADMIN }
+        - { path: ^/back, roles: ROLE_MODO }
+        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/question/new, roles: ROLE_USER }
+        - { path: ^/answer/unvalidate, roles: ROLE_USER }
+        - { path: '^\/answer\/[0-9]+\/validate\/question', roles: ROLE_USER }
+        - { path: ^/answer/question, roles: ROLE_USER, methods: [POST] }
     role_hierarchy:
         ROLE_MODO: ROLE_USER
         ROLE_ADMIN: ROLE_MODO

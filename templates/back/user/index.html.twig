@@ -11,7 +11,6 @@
                 <th>Id</th>
                 <th>Username</th>
                 <th>Roles</th>
-                {# <th>Password</th> #}
                 <th>Email</th>
                 <th>IsActive</th>
                 <th>actions</th>
@@ -36,11 +35,10 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="7">no records found</td>
+                <td colspan="7">Pas d'utilisateur enregistré</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('back_user_new') }}">Create new</a>
 {% endblock %}
