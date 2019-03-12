@@ -41,6 +41,7 @@ class AnswerController extends AbstractController
                 $validatedAnswer = null;
             }
         }
+        
         $answer = new Answer();
         $form = $this->createForm(AnswerType::class, $answer);
         $form->handleRequest($request);
