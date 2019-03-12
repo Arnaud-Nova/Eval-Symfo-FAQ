@@ -115,6 +115,11 @@ class UserController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
 
+        $this->addFlash(
+            'info',
+            'Le changement de rôle a été enregistré pour l\'utilisateur sélectionné'
+        );
+
         return $this->redirectToRoute('back_user_index');
     }
 
@@ -126,6 +131,11 @@ class UserController extends AbstractController
         $user->setRoles('{"name": "Membre", "code": "ROLE_USER"}');
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
+
+        $this->addFlash(
+            'info',
+            'Le changement de rôle a été enregistré pour l\'utilisateur sélectionné'
+        );
 
         return $this->redirectToRoute('back_user_index');
     }

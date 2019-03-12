@@ -2,12 +2,12 @@
 
 {% block title %}Edit Tag{% endblock %}
 
-{% block body %}
-    <h1>Edit Tag</h1>
+{% block content %}
+    <h1>Modifer un tag</h1>
 
-    {{ include('back/tag/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('back/tag/_form.html.twig', {'button_label': 'Mise à jour'}) }}
 
-    <a href="{{ path('back_tag_index') }}">back to list</a>
+    <a href="{{ path('tag_index') }}">Retour à la liste des tags</a>
 
     {{ include('back/tag/_delete_form.html.twig') }}
 {% endblock %}

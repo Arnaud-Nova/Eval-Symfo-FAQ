@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -22,9 +23,12 @@ class UserType extends AbstractType
 
             $user = $event->getData();
             $form = $event->getForm();
-            // dd($user->getPassword());
-            if(empty($user->getPassword())) {
+            
+            if(is_null($user->getId())) {
                 $form->add('password', RepeatedType::class, [
+                    'constraints' => [
+                        new NotBlank()
+                    ],
                     'type' => PasswordType::class,
                     'empty_data' => '',
                     'invalid_message' => 'Les mots de passe doivent être identiques',

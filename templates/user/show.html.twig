@@ -3,6 +3,11 @@
 {% block title %}Mon compte{% endblock %}
 
 {% block content %}
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     <table>
         <thead>
             <td>Mon username</td>

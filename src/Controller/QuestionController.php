@@ -30,22 +30,6 @@ class QuestionController extends AbstractController
     }
 
     /**
-     * @Route("/question/{id}", name="show_question", methods={"GET"}, requirements={"id"="\d+"})
-     */
-    public function show(Question $question)
-    {
-        // dd($question);
-        if (!$question) {
-            throw $this->createNotFoundException('Cette question est introuvable');
-        }
-
-        
-        return $this->render('question/show.html.twig', [
-            'question' => $question,
-        ]);
-    }
-
-    /**
      * @Route("/question/new", name="question_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
@@ -63,6 +47,11 @@ class QuestionController extends AbstractController
             $question->setAuthor($user);
             $entityManager->persist($question);
             $entityManager->flush();
+
+            $this->addFlash(
+                'info',
+                'Votre question a été ajoutée'
+            );
 
             return $this->redirectToRoute('home');
         }

@@ -103,8 +103,16 @@ class AnswerController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         if ($answer->getIsActive() == true) {
             $answer->setIsActive(false);
+            $this->addFlash(
+                'info',
+                'Cette réponse ne sera plus visible par les membres et les visiteurs'
+            );
         } else {
             $answer->setIsActive(true);
+            $this->addFlash(
+                'info',
+                'Cette réponse sera à nouveau visible par les membres et les visiteurs'
+            );
         }
         
         $entityManager->flush();

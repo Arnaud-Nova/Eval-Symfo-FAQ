@@ -4,6 +4,11 @@
 
 
 {% block content %}
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     {% for question in questions %}
         <div class="row">
             <div class="col-2 d-flex flex-column justify-content-center">
@@ -41,7 +46,17 @@
             </div>
             <div class="col-2">
             </div>
-        </div>        
+        </div>
+    {% else %}
+            <div class="row">
+                <div class="col-2">
+                </div>
+                <div class="col-8" colspan="5">
+                    Il n'y a pas encore de question pour cette catégorie
+                </div class="col-8">
+                <div class="col-2">
+                </div>
+            </div>     
     {% endfor %}
 {% endblock %}
 

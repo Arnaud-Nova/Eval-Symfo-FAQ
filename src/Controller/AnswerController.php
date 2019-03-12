@@ -31,15 +31,16 @@ class AnswerController extends AbstractController
             $isQuestionAuthor = false;
         }
 
+        $validatedAnswer = $question->getValidatedAnswer();
         if (true === $authChecker->isGranted('ROLE_MODO')) {
             $answers = $answerRepository->findByQuestionModo($question);
+            
         } else {
             $answers = $answerRepository->findByQuestion($question);
+            if ($validatedAnswer->getIsActive() != true) {
+                $validatedAnswer = null;
+            }
         }
-
-        
-        $validatedAnswer = $question->getValidatedAnswer();
-        // dd($validatedAnswer);
         $answer = new Answer();
         $form = $this->createForm(AnswerType::class, $answer);
         $form->handleRequest($request);
@@ -53,6 +54,11 @@ class AnswerController extends AbstractController
             $answer->setQuestion($question);
             $entityManager->persist($answer);
             $entityManager->flush();
+
+            $this->addFlash(
+                'info',
+                'Votre réponse a été ajoutée'
+            );
 
             return $this->redirect($requestUri);
         }
@@ -78,6 +84,11 @@ class AnswerController extends AbstractController
         $entityManager->persist($question);
         $entityManager->flush();
 
+        $this->addFlash(
+            'info',
+            'La réponse qui vous a été utile est maitenant mise en avant'
+        );
+
         return $this->redirect('/answer/question/' . $question->getId());
     }
 
@@ -90,6 +101,11 @@ class AnswerController extends AbstractController
         $question->setValidatedAnswer(null);
         $entityManager->persist($question);
         $entityManager->flush();
+
+        $this->addFlash(
+            'info',
+            'Cette réponse a repris sa place initiale'
+        );
 
         return $this->redirect('/answer/question/' . $question->getId());
     }

@@ -26,6 +26,7 @@ class TagRepository extends ServiceEntityRepository
         FROM App\Entity\Question question
         JOIN question.tags t
         WHERE t = :tag
+        ORDER BY question.createdAt DESC
         ')
         ->setParameter('tag',$tag);
 
@@ -40,12 +41,13 @@ class TagRepository extends ServiceEntityRepository
         JOIN question.tags t
         WHERE t = :tag
         AND question.isActive = true
+        ORDER BY question.createdAt DESC
         ')
         ->setParameter('tag',$tag);
 
         return $query->getResult(); 
     }
-    
+
     // /**
     //  * @return Tag[] Returns an array of Tag objects
     //  */

@@ -4,9 +4,15 @@
 
 
 {% block content %}
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="row">
         <div class="col-2 d-flex flex-column justify-content-center">
             {% if is_granted('ROLE_MODO') %}
+            Respect de la charte
                 {% if question.isActive == true %}
                     <a class="btn btn-danger" href="{{ path('back_activation_question', {'id': question.id}) }}">
                         Refuser la question
@@ -38,10 +44,11 @@
         <div class="col-2">
         </div>
     </div>
-    {% if validatedAnswer != null and validatedAnswer.isActive == true %}
+    {% if validatedAnswer != null %}
         <div class="row">
             <div class="col-2 d-flex flex-column justify-content-center">
                 {% if is_granted('ROLE_MODO') %}
+                Respect de la charte
                     {% if validatedAnswer.isActive == true %}
                         <a class="btn btn-danger" href="{{ path('back_activation_answer', {'id': validatedAnswer.id}) }}">
                             Refuser la réponse
@@ -60,7 +67,11 @@
                 <p>{{ validatedAnswer.content }}</p>
             </div>  
             <div class="col-2 d-flex flex-column justify-content-center">
-                <a class="btn btn-danger" href="{{ path('unValidate_answer_for_question', {'id': question.id}) }}">Ne m'a pas aidé</a>
+                {% if isQuestionAuthor == true %}
+                    <a class="btn btn-danger" href="{{ path('unValidate_answer_for_question', {'id': question.id}) }}">
+                        Ne m'a pas aidé
+                    </a>
+                {% endif %}
             </div>
         </div>
     {% endif %}
@@ -73,6 +84,7 @@
             
                 <div class="col-2 d-flex flex-column justify-content-center">
                     {% if is_granted('ROLE_MODO') %}
+                    Respect de la charte
                         {% if answer.isActive == true %}
                             <a class="btn btn-danger" href="{{ path('back_activation_answer', {'id': answer.id}) }}">
                                 Refuser la réponse
@@ -105,12 +117,16 @@
     {% endfor %}
 
     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        
         <div class="row">
             <div class="col-2">
                 
             </div>
             
             <div class="col-8 alert alert-primary">
+                <h4>
+                	Proposez une solution
+                </h4>
                 {% include 'back/answer/_form.html.twig' %}
             </div>
             

@@ -19,7 +19,7 @@
                             <li class="nav-item">
                                 <a class="nav-link btn-primary m-1" href="{{ path('user_account') }}#"><i class="fas fa-user"></i> Mon compte</a>
                             </li>
-                            {% if is_granted('ROLE_MODO') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <li class="nav-item">
                                     <a class="nav-link btn-warning m-1" href="{{ path('back_user_index') }}#"><i class="fas fa-rocket"></i> Gestion des modérateurs</a>
                                 </li>

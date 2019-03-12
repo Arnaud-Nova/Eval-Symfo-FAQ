@@ -30,6 +30,11 @@ class TagController extends AbstractController
             $entityManager->persist($tag);
             $entityManager->flush();
 
+            $this->addFlash(
+                'info',
+                'Un nouveau tag a été ajouté'
+            );
+
             return $this->redirectToRoute('tag_index');
         }
 

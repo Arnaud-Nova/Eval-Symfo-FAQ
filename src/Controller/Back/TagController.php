@@ -15,51 +15,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TagController extends AbstractController
 {
-    /**
-     * @Route("/", name="tag_index", methods={"GET"})
-     */
-    public function index(TagRepository $tagRepository): Response
-    {
-        return $this->render('back/tag/index.html.twig', [
-            'tags' => $tagRepository->findAll(),
-        ]);
-    }
 
     /**
-     * @Route("/new", name="tag_new", methods={"GET","POST"})
-     */
-    public function new(Request $request): Response
-    {
-        $tag = new Tag();
-        $form = $this->createForm(TagType::class, $tag);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($tag);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('back/tag_index');
-        }
-
-        return $this->render('back/tag/new.html.twig', [
-            'tag' => $tag,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="tag_show", methods={"GET"})
-     */
-    public function show(Tag $tag): Response
-    {
-        return $this->render('back/tag/show.html.twig', [
-            'tag' => $tag,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}/edit", name="tag_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="tag_edit", methods={"GET","POST"}, requirements={"id"="\d+"})
      */
     public function edit(Request $request, Tag $tag): Response
     {
@@ -69,9 +27,7 @@ class TagController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('back/tag_index', [
-                'id' => $tag->getId(),
-            ]);
+            return $this->redirectToRoute('tag_index');
         }
 
         return $this->render('back/tag/edit.html.twig', [
@@ -81,7 +37,7 @@ class TagController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="tag_delete", methods={"DELETE"})
+     * @Route("/{id}", name="tag_delete", methods={"DELETE"}, requirements={"id"="\d+"})
      */
     public function delete(Request $request, Tag $tag): Response
     {
@@ -91,6 +47,6 @@ class TagController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('back/tag_index');
+        return $this->redirectToRoute('tag_index');
     }
 }

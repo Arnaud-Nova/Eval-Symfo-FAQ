@@ -43,10 +43,14 @@ class UserController extends AbstractController
             $user->setPassword($encodedPassword);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
-            // dd($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('home');
+            $this->addFlash(
+                'info',
+                'Nouvel utilisateur enregistré, vous pouvez maintenant vous connecter'
+            );
+
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('user/new.html.twig', [
@@ -64,6 +68,7 @@ class UserController extends AbstractController
         $oldPassword = $user->getPassword();
         
         $form = $this->createForm(UserType::class, $user);
+        // dd($form);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -74,8 +79,12 @@ class UserController extends AbstractController
             }
 
             $user->setPassword($encodedPassword);
-dd($user);
             $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash(
+                'info',
+                'Modifications prises en compte'
+            );
 
             return $this->redirectToRoute('user_account');
         }

@@ -4,6 +4,11 @@
 
 {% block content %}
     <h1>Liste des tags</h1>
+    {% for message in app.flashes('info') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
     <h3>Choisissez la catégorie de votre choix pour consulter les questions correspondantes</h3>
 
     <table class="table">
@@ -11,6 +16,9 @@
             <tr>
                 <th>Tag</th>
                 <th>Les questions</th>
+                {% if is_granted('ROLE_MODO') %}
+                    <th>Actions</th>
+                {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -21,6 +29,13 @@
                 <td>
                     <a class="btn btn-info" href="{{ path('tag_questions', {'id': tag.id}) }}">Voir</a>
                 </td>
+                {% if is_granted('ROLE_MODO') %}
+                    <td>
+                        <a class="btn btn-warning" href="{{ path('back_tag_edit', {'id': tag.id}) }}">
+                            Modifier
+                        </a>
+                    </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>

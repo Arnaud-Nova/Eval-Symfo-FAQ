@@ -18,7 +18,7 @@ class QuestionType extends AbstractType
                 'label' => 'Titre de la question',
             ])
             ->add('content', TextareaType::class, [
-                'label' => 'Détaillez votre réponse'
+                'label' => 'Détaillez votre problèmatique'
             ])
             ->add('tags')
         ;
