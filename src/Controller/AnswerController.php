@@ -37,7 +37,7 @@ class AnswerController extends AbstractController
             
         } else {
             $answers = $answerRepository->findByQuestion($question);
-            if ($validatedAnswer->getIsActive() != true) {
+            if ($validatedAnswer != null && $validatedAnswer->getIsActive() != true) {
                 $validatedAnswer = null;
             }
         }
