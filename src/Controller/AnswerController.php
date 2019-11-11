@@ -49,7 +49,6 @@ class AnswerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $requestUri = $request->getRequestUri();
-            
             $entityManager = $this->getDoctrine()->getManager();
             $answer->setAuthor($user);
             $answer->setQuestion($question);

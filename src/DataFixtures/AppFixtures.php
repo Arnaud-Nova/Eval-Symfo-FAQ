@@ -24,21 +24,6 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        // $roleAdmin = new Role();
-        // $roleAdmin->setCode('ROLE_ADMIN');
-        // $roleAdmin->setName('Administrateur');
-
-        // $roleModo = new Role();
-        // $roleModo->setCode('ROLE_MODO');
-        // $roleModo->setName('Modérateur');
-
-        // $roleUser = new Role();
-        // $roleUser->setCode('ROLE_USER');
-        // $roleUser->setName('Membre');
-
-        // $manager->persist($roleAdmin);
-        // $manager->persist($roleModo);
-        // $manager->persist($roleUser);
 
         $admin = new User();
         $admin->setEmail('admin@test.fr');
